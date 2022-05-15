@@ -5,9 +5,18 @@ using UnityEngine;
 public class WallMovement : MonoBehaviour
 {
     public float Speed = 3;
-    // Update is called once per frame
+    public float SlowedSpeed = 3;
+
+    public bool WallIsSlowed = false;
     void Update()
     {
-        transform.Translate(Vector2.right * (Time.deltaTime * Speed), Space.World);
+        if (WallIsSlowed == false)
+        {
+            transform.Translate(Vector2.right * (Time.deltaTime * Speed), Space.World);
+        }
+        if (WallIsSlowed == true)
+        {
+            transform.Translate(Vector2.right * (Time.deltaTime * SlowedSpeed), Space.World);
+        }
     }
 }

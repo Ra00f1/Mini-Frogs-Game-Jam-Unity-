@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 15d3595066cd4234a9baab1f230a8d92
+guid: 7e168e152685804429f6f4af33b8081d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2610119303323433452
-    second: GroundTiel_0
+      213: 629191524019289837
+    second: brnach2_0
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -68,11 +68,11 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 16384
-    resizeAlgorithm: 1
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
-    compressionQuality: 100
+    compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
@@ -80,11 +80,11 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
-    maxTextureSize: 16384
-    resizeAlgorithm: 1
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
-    compressionQuality: 100
+    compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
@@ -92,11 +92,11 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Android
-    maxTextureSize: 16384
-    resizeAlgorithm: 1
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
-    compressionQuality: 100
+    compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
@@ -106,13 +106,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: GroundTiel_0
+      name: brnach2_0
       rect:
         serializedVersion: 2
-        x: 16
-        y: 96
-        width: 16
-        height: 32
+        x: 12
+        y: 20
+        width: 38
+        height: 15
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -120,8 +120,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ce9bbf76da1093420800000000000000
-      internalID: 2610119303323433452
+      spriteID: dee3bd48b565bb800800000000000000
+      internalID: 629191524019289837
       vertices: []
       indices: 
       edges: []
