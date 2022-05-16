@@ -6,6 +6,10 @@ public class FrogMovement : MonoBehaviour
 {
     public WallMovement WallMovementSc;
 
+    public GameObject SummonVineGO;
+
+    public Animator Animator;
+
     private float Speed = 4f;
     public float NormalSpeed = 10f;
     public float GlidingSpeed = 5.5f;
@@ -20,6 +24,10 @@ public class FrogMovement : MonoBehaviour
     public float WallSlowTime;
     public float WallSlowCoolDown;
 
+    public float VineOffsetX;
+    public float VineOffsetY;
+
+
     private float LastGravityScale;
 
     private Rigidbody2D rb;
@@ -30,6 +38,8 @@ public class FrogMovement : MonoBehaviour
     public bool IsCrouching = false;
     public bool IsGliding = false;
     public bool IsAlive = true;
+    public bool IsVineSummonable = true;
+    public bool IsOnGround = true;
 
     public CircleCollider2D NormalCollider;
     public CircleCollider2D CrouchedCollider;
@@ -42,6 +52,7 @@ public class FrogMovement : MonoBehaviour
         rb.gravityScale = NormalGravityScale;
         WallMovementSc = GameObject.Find("Wall").GetComponent<WallMovement>();
         IsAlive = true;
+        Animator = gameObject.GetComponent<Animator>();
     }
 
     void Update()
@@ -52,17 +63,27 @@ public class FrogMovement : MonoBehaviour
         LongJump();
         Glide();
         SlowTheWall();
+        SummonVine();
     }
 
     private void Movement()
     {
         if (Input.GetKey(KeyCode.D) && IsAlive == true || Input.GetKey(KeyCode.RightArrow) && IsAlive == true)
         {
+            Animator.SetBool("IsWalking", true);
             transform.Translate(Vector2.right * (Time.deltaTime * Speed), Space.World);
+            gameObject.GetComponent<SpriteRenderer>().flipX = false;
+            Animator.SetBool("IsWalking", true);
         }
-        if (Input.GetKey(KeyCode.A) && IsAlive == true || Input.GetKey(KeyCode.LeftArrow) && IsAlive == true)
+        else if (Input.GetKey(KeyCode.A) && IsAlive == true || Input.GetKey(KeyCode.LeftArrow) && IsAlive == true)
         {
             transform.Translate(Vector2.left * (Time.deltaTime * Speed), Space.World);
+            Animator.SetBool("IsWalking", true);
+            gameObject.GetComponent<SpriteRenderer>().flipX = true;
+        }
+        else
+        {
+            Animator.SetBool("IsWalking", false);
         }
     }
 
@@ -72,6 +93,7 @@ public class FrogMovement : MonoBehaviour
         {
             IsJumping = true;
             rb.AddForce(new Vector2(rb.velocity.y, NormalJumpForce), ForceMode2D.Impulse);
+            Animator.SetBool("IsJumpingUp", true);
         }
     }
 
@@ -79,9 +101,28 @@ public class FrogMovement : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
+            IsOnGround = true;
             IsJumping = false;
             IsGliding = false;
+            Animator.SetBool("IsJumpingUp", false);
             rb.gravityScale = NormalGravityScale;
+            Animator.SetBool("IsFalling", false);
+        }
+        if (collision.gameObject.CompareTag("Branch"))
+        {
+            IsOnGround = false;
+            IsJumping = false;
+            IsGliding = false;
+            Animator.SetBool("IsJumpingUp", false);
+            rb.gravityScale = NormalGravityScale;
+            Animator.SetBool("IsFalling", false);
+        }
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Ground" && IsJumping == false && IsOnGround == false|| collision.gameObject.tag == "Branch" && IsJumping == false && IsOnGround == false)
+        {
+            Animator.SetBool("IsFalling", true);
         }
     }
 
@@ -108,6 +149,7 @@ public class FrogMovement : MonoBehaviour
             IsJumping = true;
             rb.gravityScale = LongJumpGravityScale;
             rb.AddForce(new Vector2(rb.velocity.y, LongJumpForce), ForceMode2D.Impulse);
+            Animator.SetBool("IsJumpingUp", true);
         }
     }
 
@@ -141,5 +183,28 @@ public class FrogMovement : MonoBehaviour
         WallMovementSc.WallIsSlowed = true;
         yield return new WaitForSeconds(countdown);
         WallMovementSc.WallIsSlowed = false;
+    }
+
+    // To Summon and Move The Vine
+    GameObject Vine;
+    private void SummonVine()
+    {
+        if (Input.GetKeyDown(KeyCode.F) && IsVineSummonable == true && IsJumping == false && IsGliding == false && IsOnGround == true)
+        {
+            Vine =  Instantiate(SummonVineGO, new Vector3 (gameObject.transform.position.x + VineOffsetX, gameObject.transform.position.y + VineOffsetY, gameObject.transform.position.z), Quaternion.identity);
+            StartCoroutine(MoveToPosition(Vine.transform, new Vector3(gameObject.transform.position.x + VineOffsetX, gameObject.transform.position.y + VineOffsetY + 2.25f, gameObject.transform.position.z), 1f));
+        }
+    }
+
+    private IEnumerator MoveToPosition(Transform transform, Vector3 position, float timeToMove)
+    {
+        var currentPos = transform.position;
+        var t = 0f;
+        while (t < 1)
+        {
+            t += Time.deltaTime / timeToMove;
+            transform.position = Vector3.Lerp(currentPos, position, t);
+            yield return null;
+        }
     }
 }

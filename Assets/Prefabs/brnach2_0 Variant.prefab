@@ -9,7 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7775337087500147586, guid: cef48fef667f6b143bb4a00689a8ab86, type: 3}
       propertyPath: m_Name
-      value: brnach2_0
+      value: brnach2_0 Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 7775337087500147586, guid: cef48fef667f6b143bb4a00689a8ab86, type: 3}
+      propertyPath: m_TagString
+      value: Branch
       objectReference: {fileID: 0}
     - target: {fileID: 7775337087500147591, guid: cef48fef667f6b143bb4a00689a8ab86, type: 3}
       propertyPath: m_RootOrder
